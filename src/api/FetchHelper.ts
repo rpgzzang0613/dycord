@@ -30,7 +30,10 @@ export const requestToApi = async ({
   if (method === HttpMethod.GET) {
     if (Object.keys(params).length > 0) {
       const query = new URLSearchParams(
-        Object.entries(params).map(([k, v]) => [k, String(v)])
+        Object.entries(params).map(([k, v]) => [
+          k,
+          typeof v === 'object' ? JSON.stringify(v) : String(v),
+        ])
       ).toString();
       url += '?' + query;
     }
