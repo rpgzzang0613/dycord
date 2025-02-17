@@ -49,7 +49,7 @@ export const requestToApi = async ({
     },
   };
 
-  if (body && method !== 'GET') {
+  if (method !== 'GET' && body) {
     options.body = body;
   }
 
