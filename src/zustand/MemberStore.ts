@@ -1,4 +1,6 @@
 import {create} from 'zustand/react';
+import {testFetch} from '../api/MemberFetch.ts';
+import {HttpMethod} from '../api/FetchHelper.ts';
 
 type member = {
   id: number;
@@ -25,11 +27,12 @@ interface State {
 // 이 Zustand Store가 가지고 있는 액션 정의
 interface Action {
   action: {
+    testFetch: (method: HttpMethod) => Promise<unknown>; // TODO 차후 제거
     setIsSignedIn: (isSignedIn: boolean) => void;
     setMemberDetail: (memberDetail: member) => void;
     getMemberDetail: () => member;
-    signUpMemberByEmail: (params: emailSignUp) => null; // TODO 차후 리턴타입 변경
-    signInMemberByEmail: (params: emailSignIn) => null; // TODO 차후 리턴타입 변경
+    signUpMemberByEmail: (params: emailSignUp) => unknown; // TODO 차후 리턴타입 변경
+    signInMemberByEmail: (params: emailSignIn) => unknown; // TODO 차후 리턴타입 변경
   };
 }
 
@@ -47,16 +50,19 @@ const initialState = {
 export const useMemberStore = create<State & Action>((set, get) => ({
   ...initialState,
   action: {
-    setIsSignedIn: (isSignedIn: boolean) => set({isSignedIn}),
-    setMemberDetail: (memberDetail: member) => set({memberDetail: {...memberDetail}}),
+    testFetch: async method => {
+      return await testFetch(method);
+    },
+    setIsSignedIn: isSignedIn => set({isSignedIn}),
+    setMemberDetail: memberDetail => set({memberDetail: {...memberDetail}}),
     getMemberDetail: () => {
       return get().memberDetail;
     },
-    signUpMemberByEmail: (params: {email: string; pwd: string; name: string}) => {
+    signUpMemberByEmail: params => {
       console.log(params);
       return null;
     },
-    signInMemberByEmail: (params: {email: string; pwd: string}) => {
+    signInMemberByEmail: params => {
       console.log(params);
       return null;
     },
