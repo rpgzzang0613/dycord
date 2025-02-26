@@ -56,7 +56,7 @@ export const requestToApi = async ({
   const response = await fetch(url, options);
 
   if (response.status === 200) {
-    return response.json();
+    return await response.json();
   } else {
     throw new Error('fetch failed');
   }
