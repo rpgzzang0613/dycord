@@ -27,6 +27,13 @@ export const requestToApi = async ({
   let url = baseUrl + endpoint;
   let body;
 
+  const {invalidK, invalidV} = checkInvalidParams(params);
+
+  if (invalidK) {
+    alert(`invalid params K:V pair - ${invalidK}: ${invalidV}`);
+    return;
+  }
+
   if (method === HttpMethod.GET) {
     if (Object.keys(params).length > 0) {
       const query = new URLSearchParams(
@@ -60,4 +67,22 @@ export const requestToApi = async ({
   } else {
     throw new Error('fetch failed');
   }
+};
+
+const checkInvalidParams = (params: Record<string, unknown>) => {
+  let invalidK = '';
+  let invalidV = '';
+  for (const key in params) {
+    if (params[key] == null) {
+      invalidK = key;
+      if (typeof params[key] === 'object') {
+        invalidV = JSON.stringify(params[key]);
+      } else {
+        invalidV = String(params[key]);
+      }
+      break;
+    }
+  }
+
+  return {invalidK, invalidV};
 };
