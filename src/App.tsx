@@ -1,12 +1,13 @@
 import './App.css';
-import Test from './components/Test.tsx';
+import Home from './pages/Home.tsx';
 import {useEffect} from 'react';
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
-import KakaoCallback from './components/KakaoCallback.tsx';
+import SignIn from './pages/SignIn.tsx';
+import PrivateRoute from './routes/PrivateRoute.tsx';
+import KakaoCallback from './components/sign-in/KakaoCallback.tsx';
 
 const App = () => {
   useEffect(() => {
-    console.log(import.meta.env.VITE_KAKAO_APP_KEY);
     if (window?.Kakao) {
       if (!window.Kakao.isInitialized()) {
         window.Kakao.init(import.meta.env.VITE_KAKAO_APP_KEY);
@@ -19,7 +20,10 @@ const App = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Test />} />
+        <Route element={<PrivateRoute />}>
+          <Route path="/" element={<Home />} />
+        </Route>
+        <Route path="/sign-in" element={<SignIn />} />
         <Route path="/kakao/callback" element={<KakaoCallback />} />
       </Routes>
     </BrowserRouter>

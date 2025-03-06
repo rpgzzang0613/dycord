@@ -91,3 +91,10 @@
     background-color: #242424;
   }
 }
+
+button {
+  cursor: pointer;
+}
+button:disabled {
+  cursor: not-allowed;
+}
