@@ -25,6 +25,7 @@ dist-ssr
 
 # secret
 .env
+.env.local
 
 # asdf local config
 .tool-versions
