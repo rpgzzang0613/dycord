@@ -24,7 +24,7 @@ const App = () => {
           <Route path="/" element={<Home />} />
         </Route>
         <Route path="/sign-in" element={<SignIn />} />
-        <Route path="/kakao/callback" element={<KakaoCallback />} />
+        <Route path="/auth/kakao/callback" element={<KakaoCallback />} />
       </Routes>
     </BrowserRouter>
   );

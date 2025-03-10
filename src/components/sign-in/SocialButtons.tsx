@@ -3,7 +3,7 @@ import '../../styles/SocialButtons.css';
 const SocialButtons = () => {
   const handleKakaoLogin = async () => {
     window.Kakao.Auth.authorize({
-      redirectUri: 'http://localhost:3636/kakao/callback',
+      redirectUri: import.meta.env.VITE_KAKAO_REDIRECT_URI,
     });
   };
 

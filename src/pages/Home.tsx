@@ -1,7 +1,7 @@
 import {useShallow} from 'zustand/react/shallow';
 import {useMemberStore} from '../zustand/MemberStore.ts';
 import {useState} from 'react';
-import {HttpMethod} from '../api/FetchHelper.ts';
+import {HttpMethod} from '../api/internal/FetchHelper.ts';
 
 const Home = () => {
   const {isSignedIn, memberAction} = useMemberStore(

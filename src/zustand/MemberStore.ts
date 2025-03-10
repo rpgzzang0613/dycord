@@ -1,6 +1,6 @@
 import {create} from 'zustand/react';
-import {testFetch} from '../api/MemberFetch.ts';
-import {HttpMethod} from '../api/FetchHelper.ts';
+import {testFetch} from '../api/internal/MemberFetch.ts';
+import {HttpMethod} from '../api/internal/FetchHelper.ts';
 
 type member = {
   id: number;
