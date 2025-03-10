@@ -2,12 +2,12 @@ import {useNavigate} from 'react-router-dom';
 import {useEffect} from 'react';
 import {useMemberStore} from '../../zustand/MemberStore.ts';
 import {useShallow} from 'zustand/react/shallow';
+import {fetchKakaoProfile, fetchKakaoToken} from '../../api/external/SocialFetch.ts';
 import {
-  fetchKakaoProfile,
-  fetchKakaoToken,
+  KakaoErrorResponse,
   KakaoProfileResponse,
   KakaoTokenResponse,
-} from '../../api/external/SocialFetch.ts';
+} from '../../api/external/types.ts';
 
 const KakaoCallback = () => {
   const navigate = useNavigate();
@@ -30,7 +30,7 @@ const KakaoCallback = () => {
 
       const tokenRes = await fetchKakaoToken(code);
       if (tokenRes.errorCode !== 'SUCCEED') {
-        const errData = tokenRes.data as Record<string, string>;
+        const errData = tokenRes.data as KakaoErrorResponse;
         console.error(errData.msg);
         return;
       }
