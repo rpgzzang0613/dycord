@@ -1,6 +1,6 @@
 import {create} from 'zustand/react';
 import {testFetch} from '../api/internal/MemberFetch.ts';
-import {HttpMethod} from '../api/internal/FetchHelper.ts';
+import {ContentType, HttpMethod} from '../api/internal/FetchHelper.ts';
 
 type member = {
   id: number;
@@ -27,7 +27,7 @@ interface State {
 // 이 Zustand Store가 가지고 있는 액션 정의
 interface Action {
   action: {
-    testFetch: (method: HttpMethod) => Promise<unknown>; // TODO 차후 제거
+    testFetch: (method: HttpMethod, contentType?: ContentType) => Promise<Response | undefined>; // TODO 차후 제거
     setIsSignedIn: (isSignedIn: boolean) => void;
     setMemberDetail: (memberDetail: member) => void;
     getMemberDetail: () => member;
@@ -50,8 +50,8 @@ const initialState = {
 export const useMemberStore = create<State & Action>((set, get) => ({
   ...initialState,
   action: {
-    testFetch: async method => {
-      return await testFetch(method);
+    testFetch: async (method, contentType) => {
+      return await testFetch(method, contentType);
     },
     setIsSignedIn: isSignedIn => set({isSignedIn}),
     setMemberDetail: memberDetail => set({memberDetail: {...memberDetail}}),

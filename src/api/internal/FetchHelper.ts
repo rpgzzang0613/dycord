@@ -5,68 +5,81 @@ export enum HttpMethod {
   DELETE = 'DELETE',
 }
 
-interface RequestParams {
-  method: HttpMethod;
-  endpoint: string;
-  params?: Record<string, unknown>;
-  headers?: Record<string, string>;
+export enum ContentType {
+  JSON = 'application/json',
+  FORM = 'application/x-www-form-urlencoded',
 }
 
+interface RequestParams {
+  method: HttpMethod;
+  contentType?: ContentType;
+  baseUrl?: string;
+  endpoint: string;
+  paramObj?: Record<string, unknown>;
+  headerObj?: Record<string, string>;
+}
+
+/**
+ * API 요청용 Wrapper 함수
+ * @param {RequestParams} requestObj
+ * @param {string} requestObj.endpoint (*필수) API 요청을 보낼 Endpoint URL (ex. '/v1/user')
+ * @param {HttpMethod} requestObj.method (*필수) HttpMethod Enum ('GET', 'POST', 'PUT', 'DELETE')
+ * @param {string} requestObj.baseUrl (선택) 별도의 외부 업체 API로 요청을 보낼 때의 Base URL (미지정시 내부 API로 요청)
+ * @param {ContentType} requestObj.contentType (선택) ContentType Enum ('application/json', 'application/x-www-form-urlencoded')
+ * @param {Record<string, unknown>} requestObj.paramObj (선택) 요청 파라미터를 담은 Object. HttpMethod와 ContentType에 따라 형태를 자동으로 변경하여 전달하므로 Object 형태로만 전달하면 됨
+ * @param {Record<string, string>} requestObj.headerObj (선택) ***Content-Type 을 제외하고*** 추가할 Header 정보를 담은 Object. (ex. Authorization, 커스텀 헤더 등)
+ */
 export const requestToApi = async ({
   method,
+  contentType,
+  baseUrl = 'http://localhost:9090',
   endpoint,
-  params = {},
-  headers = {},
+  paramObj = {},
+  headerObj = {},
 }: RequestParams) => {
   if (!endpoint.startsWith('/')) {
+    console.error('endpoint는 /로 시작해야함');
     return;
   }
-
-  const baseUrl = 'http://localhost:9090';
 
   let url = baseUrl + endpoint;
-  let body;
 
-  const {invalidK, invalidV} = checkInvalidParams(params);
-
-  if (invalidK) {
-    alert(`invalid params K:V pair - ${invalidK}: ${invalidV}`);
+  if (headerObj['Content-Type'] != null) {
+    console.error('Content-Type은 headerObj에 포함시키지 말고 contentType으로 전달해야함');
     return;
   }
 
+  headerObj = {
+    ...headerObj,
+    ...(contentType ? {'Content-Type': contentType} : {}),
+  };
+
+  const headers = new Headers(headerObj);
+
+  const {invalidK, invalidV} = checkInvalidParams(paramObj);
+
+  if (invalidK) {
+    console.error(`유효하지 않은 형식의 파라미터 - key: ${invalidK} / value: ${invalidV}`);
+    return;
+  }
+
+  let body;
   if (method === HttpMethod.GET) {
-    if (Object.keys(params).length > 0) {
-      const query = new URLSearchParams(
-        Object.entries(params).map(([k, v]) => [
-          k,
-          typeof v === 'object' ? JSON.stringify(v) : String(v),
-        ])
-      ).toString();
-      url += '?' + query;
+    if (Object.keys(paramObj).length > 0) {
+      url += '?' + getUrlSearchParams(paramObj);
     }
   } else {
-    body = JSON.stringify(params);
+    body =
+      contentType === ContentType.FORM ? getUrlSearchParams(paramObj) : JSON.stringify(paramObj);
   }
 
   const options: RequestInit = {
-    method,
-    headers: {
-      'Content-Type': 'application/json',
-      ...headers,
-    },
+    method: method,
+    headers: headers,
+    ...(method !== 'GET' && body ? {body: body} : {}),
   };
 
-  if (method !== 'GET' && body) {
-    options.body = body;
-  }
-
-  const response = await fetch(url, options);
-
-  if (response.status === 200) {
-    return await response.json();
-  } else {
-    throw new Error('fetch failed');
-  }
+  return await fetch(url, options);
 };
 
 const checkInvalidParams = (params: Record<string, unknown>) => {
@@ -85,4 +98,13 @@ const checkInvalidParams = (params: Record<string, unknown>) => {
   }
 
   return {invalidK, invalidV};
+};
+
+const getUrlSearchParams = (paramObj: Record<string, unknown>) => {
+  return new URLSearchParams(
+    Object.entries(paramObj).map(([k, v]) => [
+      k,
+      typeof v === 'object' ? JSON.stringify(v) : String(v),
+    ])
+  ).toString();
 };

@@ -1,7 +1,7 @@
 import {useShallow} from 'zustand/react/shallow';
 import {useMemberStore} from '../zustand/MemberStore.ts';
 import {useState} from 'react';
-import {HttpMethod} from '../api/internal/FetchHelper.ts';
+import {ContentType, HttpMethod} from '../api/internal/FetchHelper.ts';
 
 const Home = () => {
   const {isSignedIn, memberAction} = useMemberStore(
@@ -13,9 +13,11 @@ const Home = () => {
 
   const [testObj, setTestObj] = useState<Record<string, string> | null>(null);
 
-  const handleOnClick = async (method: HttpMethod) => {
-    const testObj = (await memberAction.testFetch(method)) as Record<string, string>;
-    setTestObj(testObj);
+  const handleOnClick = async (method: HttpMethod, contentType?: ContentType) => {
+    const testRes = await memberAction.testFetch(method, contentType);
+    if (testRes && testRes?.ok) {
+      setTestObj(await testRes.json());
+    }
   };
 
   return (
@@ -23,7 +25,12 @@ const Home = () => {
       <div>로그인 : {isSignedIn ? 'ㅇ' : 'ㄴ'}</div>
       <div>fetch 내용 : {testObj ? JSON.stringify(testObj) : '없음'}</div>
       <button onClick={() => handleOnClick(HttpMethod.GET)}>Fetch GET Test</button>
-      <button onClick={() => handleOnClick(HttpMethod.POST)}>Fetch POST Test</button>
+      <button onClick={() => handleOnClick(HttpMethod.POST, ContentType.FORM)}>
+        Fetch POST FORM Test
+      </button>
+      <button onClick={() => handleOnClick(HttpMethod.POST, ContentType.JSON)}>
+        Fetch POST JSON Test
+      </button>
     </>
   );
 };

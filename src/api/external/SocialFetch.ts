@@ -4,24 +4,34 @@ import {
   KakaoTokenResponse,
   SocialResponse,
 } from './types.ts';
+import {ContentType, HttpMethod, requestToApi} from '../internal/FetchHelper.ts';
 
 export const fetchKakaoToken = async (
   code: string
 ): Promise<SocialResponse<KakaoTokenResponse | KakaoErrorResponse>> => {
   try {
-    const fetchRes = await fetch('https://kauth.kakao.com/oauth/token', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
-      },
-      body: new URLSearchParams({
+    const fetchRes = await requestToApi({
+      method: HttpMethod.POST,
+      contentType: ContentType.FORM,
+      baseUrl: 'https://kauth.kakao.com',
+      endpoint: '/oauth/token',
+      paramObj: {
         grant_type: 'authorization_code',
         client_id: import.meta.env.VITE_KAKAO_REST_KEY,
         redirect_uri: import.meta.env.VITE_KAKAO_REDIRECT_URI,
         code: code,
         client_secret: import.meta.env.VITE_KAKAO_CLIENT_SECRET,
-      }),
+      },
     });
+
+    if (!fetchRes) {
+      return {
+        errorCode: 'FAILED',
+        data: {
+          msg: '토큰 요청 실패 - fetch 결과 null',
+        },
+      };
+    }
 
     if (!fetchRes.ok) {
       const errorData = await fetchRes.json();
@@ -52,12 +62,24 @@ export const fetchKakaoProfile = async (
   accessToken: string
 ): Promise<SocialResponse<KakaoProfileResponse | KakaoErrorResponse>> => {
   try {
-    const fetchRes = await fetch('https://kapi.kakao.com/v2/user/me', {
-      headers: {
+    const fetchRes = await requestToApi({
+      method: HttpMethod.GET,
+      contentType: ContentType.FORM,
+      baseUrl: 'https://kapi.kakao.com',
+      endpoint: '/v2/user/me',
+      headerObj: {
         Authorization: `Bearer ${accessToken}`,
-        'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
       },
     });
+
+    if (!fetchRes) {
+      return {
+        errorCode: 'FAILED',
+        data: {
+          msg: '프로필 요청 실패 - fetch response 없음',
+        },
+      };
+    }
 
     if (!fetchRes.ok) {
       const errorData = await fetchRes.json();

@@ -23,10 +23,14 @@ const NaverCallback = () => {
 
         naverLogin.init();
 
-        naverLogin.getLoginStatus(status => {
-          if (status) {
-            alert(naverLogin.user.id);
+        naverLogin.getLoginStatus((status: boolean) => {
+          if (!status) {
+            alert('네이버 로그인 실패로 프로필 조회 불가');
+            return;
           }
+
+          // TODO 유저 id로 서버에 회원가입 여부 확인 후 로그인 처리
+          alert(`네이버 프로필 조회 결과: ${JSON.stringify(naverLogin.user)}`);
         });
       }
     } catch (error) {

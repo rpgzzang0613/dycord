@@ -47,7 +47,8 @@ const KakaoCallback = () => {
 
       const profileData = profileRes.data as KakaoProfileResponse;
 
-      console.log(profileData, '카카오 프로필 조회 결과');
+      // TODO 유저 id로 서버에 회원가입 여부 확인 후 로그인 처리
+      alert(`카카오 프로필 조회 결과 : ${JSON.stringify(profileData)}`);
     } catch (error) {
       console.error(error);
       alert('카카오 계정 인증 실패');
