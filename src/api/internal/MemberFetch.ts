@@ -9,9 +9,9 @@ export const testFetch = async (method: HttpMethod, contentType?: ContentType) =
   }
 
   return await requestToApi({
+    endpoint: endpoint,
     method: method,
     contentType: contentType,
-    endpoint: endpoint,
     paramObj: {test: 'test'},
   });
 };

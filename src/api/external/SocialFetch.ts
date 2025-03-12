@@ -11,10 +11,10 @@ export const fetchKakaoToken = async (
 ): Promise<SocialResponse<KakaoTokenResponse | KakaoErrorResponse>> => {
   try {
     const fetchRes = await requestToApi({
-      method: HttpMethod.POST,
-      contentType: ContentType.FORM,
-      baseUrl: 'https://kauth.kakao.com',
       endpoint: '/oauth/token',
+      method: HttpMethod.POST,
+      baseUrl: 'https://kauth.kakao.com',
+      contentType: ContentType.FORM,
       paramObj: {
         grant_type: 'authorization_code',
         client_id: import.meta.env.VITE_KAKAO_REST_KEY,
@@ -63,10 +63,10 @@ export const fetchKakaoProfile = async (
 ): Promise<SocialResponse<KakaoProfileResponse | KakaoErrorResponse>> => {
   try {
     const fetchRes = await requestToApi({
-      method: HttpMethod.GET,
-      contentType: ContentType.FORM,
-      baseUrl: 'https://kapi.kakao.com',
       endpoint: '/v2/user/me',
+      method: HttpMethod.GET,
+      baseUrl: 'https://kapi.kakao.com',
+      contentType: ContentType.FORM,
       headerObj: {
         Authorization: `Bearer ${accessToken}`,
       },

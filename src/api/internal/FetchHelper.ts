@@ -11,10 +11,10 @@ export enum ContentType {
 }
 
 interface RequestParams {
+  endpoint: string;
   method: HttpMethod;
   contentType?: ContentType;
   baseUrl?: string;
-  endpoint: string;
   paramObj?: Record<string, unknown>;
   headerObj?: Record<string, string>;
 }
@@ -30,10 +30,10 @@ interface RequestParams {
  * @param {Record<string, string>} requestObj.headerObj (선택) ***Content-Type 을 제외하고*** 추가할 Header 정보를 담은 Object. (ex. Authorization, 커스텀 헤더 등)
  */
 export const requestToApi = async ({
-  method,
-  contentType,
-  baseUrl = 'http://localhost:9090',
   endpoint,
+  method,
+  baseUrl = 'http://localhost:9090',
+  contentType,
   paramObj = {},
   headerObj = {},
 }: RequestParams) => {
