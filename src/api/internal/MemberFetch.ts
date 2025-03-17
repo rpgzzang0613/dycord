@@ -1,4 +1,4 @@
-import {ContentType, HttpMethod, requestToApi} from './FetchHelper.ts';
+import {ContentType, HttpMethod, requestToApi} from '../FetchHelper.ts';
 
 export const testFetch = async (method: HttpMethod, contentType?: ContentType) => {
   let endpoint = '/test';

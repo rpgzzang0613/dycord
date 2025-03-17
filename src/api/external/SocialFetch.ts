@@ -4,7 +4,7 @@ import {
   KakaoTokenResponse,
   SocialResponse,
 } from './types.ts';
-import {ContentType, HttpMethod, requestToApi} from '../internal/FetchHelper.ts';
+import {ContentType, HttpMethod, requestToApi} from '../FetchHelper.ts';
 
 export const fetchKakaoToken = async (
   code: string
