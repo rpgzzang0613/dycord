@@ -1,47 +1,38 @@
 import '../../styles/SocialButtons.css';
-import {useEffect} from 'react';
+import {POPUP_HEIGHT, POPUP_WIDTH, POPUP_X, POPUP_Y} from '../../utils/SocialPopup.ts';
 
 const SocialButtons = () => {
-  useEffect(() => {
-    if (window?.Kakao) {
-      if (!window.Kakao.isInitialized()) {
-        window.Kakao.init(import.meta.env.VITE_KAKAO_APP_KEY);
-      }
-    } else {
-      alert('Kakao SDK 로딩 실패');
-    }
-
-    if (window?.naver) {
-      const naverLogin = new window.naver.LoginWithNaverId({
-        clientId: import.meta.env.VITE_NAVER_CLIENT_ID,
-        callbackUrl: import.meta.env.VITE_NAVER_REDIRECT_URI,
-        isPopup: false,
-        loginButton: {color: 'green', type: 1, height: 60},
-      });
-
-      naverLogin.init();
-    }
-  }, []);
-
   const handleKakaoLogin = async () => {
-    window.Kakao.Auth.authorize({
-      redirectUri: import.meta.env.VITE_KAKAO_REDIRECT_URI,
-    });
+    const nonce = crypto.randomUUID();
+    window.localStorage.setItem('kakao_nonce', nonce);
+
+    window.open(
+      `https://kauth.kakao.com/oauth/authorize?client_id=${import.meta.env.VITE_KAKAO_CLIENT_ID}&redirect_uri=${import.meta.env.VITE_KAKAO_REDIRECT_URI}&nonce=${nonce}&response_type=code`,
+      'kakao_popup',
+      `width=${POPUP_WIDTH}, height=${POPUP_HEIGHT}, top=${POPUP_Y}, left=${POPUP_X} location=no`
+    );
   };
 
   const handleNaverLogin = async () => {
-    document.getElementById('naverIdLogin_loginButton')?.click();
+    const state = crypto.randomUUID();
+    window.localStorage.setItem('naver_state', state);
+
+    window.open(
+      `https://nid.naver.com/oauth2.0/authorize?client_id=${import.meta.env.VITE_NAVER_CLIENT_ID}&redirect_uri=${import.meta.env.VITE_NAVER_REDIRECT_URI}&state=${state}&response_type=code`,
+      'naver_popup',
+      `width=${POPUP_WIDTH}, height=${POPUP_HEIGHT}, top=${POPUP_Y}, left=${POPUP_X} location=no`
+    );
   };
 
   return (
     <div className="button-area">
       <button className="button kakao" onClick={handleKakaoLogin}>
-        <span>카카오 로그인</span>
+        <span>카카오 로그인 with Rest</span>
       </button>
+
       <button className="button naver" onClick={handleNaverLogin}>
-        <span>네이버 로그인</span>
+        <span>네이버 로그인 with Rest</span>
       </button>
-      <div id="naverIdLogin" style={{display: 'none'}} />
     </div>
   );
 };

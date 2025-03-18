@@ -2,12 +2,7 @@ import {useNavigate} from 'react-router-dom';
 import {useEffect} from 'react';
 import {useMemberStore} from '../../zustand/MemberStore.ts';
 import {useShallow} from 'zustand/react/shallow';
-import {fetchKakaoProfile, fetchKakaoToken} from '../../api/external/SocialFetch.ts';
-import {
-  KakaoErrorResponse,
-  KakaoProfileResponse,
-  KakaoTokenResponse,
-} from '../../api/external/types.ts';
+import {requestKakaoAuth} from '../../api/SocialFetch.ts';
 
 const KakaoCallback = () => {
   const navigate = useNavigate();
@@ -24,31 +19,18 @@ const KakaoCallback = () => {
       const code = params.get('code');
 
       if (!code) {
-        alert('카카오 계정 인증 실패');
+        alert('카카오 code 요청 실패');
         return;
       }
 
-      const tokenRes = await fetchKakaoToken(code);
-      if (tokenRes.errorCode !== 'SUCCEED') {
-        const errData = tokenRes.data as KakaoErrorResponse;
-        console.error(errData.msg);
+      const nonce = window.localStorage.getItem('kakao_nonce');
+
+      if (!nonce) {
+        alert('카카오 nonce 불러오기 실패');
         return;
       }
 
-      // TODO id_token을 이용한 OpenID Connect 방식 알아보기
-      // const {access_token, id_token} = tokenRes.data;
-      const {access_token} = tokenRes.data as KakaoTokenResponse;
-      const profileRes = await fetchKakaoProfile(access_token);
-      if (profileRes.errorCode !== 'SUCCEED') {
-        console.error(profileRes, '카카오 프로필 조회 실패');
-        alert('카카오 프로필 조회 실패');
-        return;
-      }
-
-      const profileData = profileRes.data as KakaoProfileResponse;
-
-      // TODO 유저 id로 서버에 회원가입 여부 확인 후 로그인 처리하고 navigate로 이동
-      alert(`카카오 프로필 조회 결과 : ${JSON.stringify(profileData)}`);
+      const res = await requestKakaoAuth(code, nonce);
     } catch (error) {
       console.error(error);
       alert('카카오 계정 인증 실패');

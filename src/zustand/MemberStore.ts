@@ -1,5 +1,5 @@
 import {create} from 'zustand/react';
-import {testFetch} from '../api/internal/MemberFetch.ts';
+import {testFetch} from '../api/MemberFetch.ts';
 import {ContentType, HttpMethod} from '../api/FetchHelper.ts';
 
 type member = {

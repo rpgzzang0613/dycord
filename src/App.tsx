@@ -14,8 +14,8 @@ const App = () => {
           <Route path="/" element={<Home />} />
         </Route>
         <Route path="/sign-in" element={<SignIn />} />
-        <Route path="/auth/kakao/callback" element={<KakaoCallback />} />
-        <Route path="/auth/naver/callback" element={<NaverCallback />} />
+        <Route path="/auth/callback/kakao" element={<KakaoCallback />} />
+        <Route path="/auth/callback/naver" element={<NaverCallback />} />
       </Routes>
     </BrowserRouter>
   );
