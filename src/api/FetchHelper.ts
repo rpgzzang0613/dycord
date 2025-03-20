@@ -10,6 +10,12 @@ export enum ContentType {
   FORM = 'application/x-www-form-urlencoded',
 }
 
+export enum ErrorCode {
+  SUCCEED = 'SUCCEED',
+  FAILED = 'FAILED',
+  EXCEPTION = 'EXCEPTION',
+}
+
 interface RequestParams {
   endpoint: string;
   method: HttpMethod;

@@ -3,6 +3,7 @@ import {useNavigate} from 'react-router-dom';
 import {useShallow} from 'zustand/react/shallow';
 import {useMemberStore} from '../../zustand/MemberStore.ts';
 import {requestNaverAuth} from '../../api/SocialFetch.ts';
+import {ErrorCode} from '../../api/FetchHelper.ts';
 
 const NaverCallback = () => {
   const navigate = useNavigate();
@@ -32,6 +33,13 @@ const NaverCallback = () => {
       }
 
       const res = await requestNaverAuth(code, state);
+      if (res.errorCode !== ErrorCode.SUCCEED) {
+        console.error(res);
+        alert('네이버 계정 인증 실패');
+      }
+
+      window.opener.postMessage(res.data, import.meta.env.VITE_BASE_URI);
+      self.close();
     } catch (error) {
       console.error(error);
       alert('네이버 계정 인증 실패');

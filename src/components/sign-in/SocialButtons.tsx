@@ -7,7 +7,7 @@ const SocialButtons = () => {
     window.localStorage.setItem('kakao_nonce', nonce);
 
     window.open(
-      `https://kauth.kakao.com/oauth/authorize?client_id=${import.meta.env.VITE_KAKAO_CLIENT_ID}&redirect_uri=${import.meta.env.VITE_KAKAO_REDIRECT_URI}&nonce=${nonce}&response_type=code`,
+      `https://kauth.kakao.com/oauth/authorize?client_id=${import.meta.env.VITE_KAKAO_CLIENT_ID}&redirect_uri=${import.meta.env.VITE_BASE_URI + import.meta.env.VITE_KAKAO_REDIRECT_URI}&nonce=${nonce}&response_type=code`,
       'kakao_popup',
       `width=${POPUP_WIDTH}, height=${POPUP_HEIGHT}, top=${POPUP_Y}, left=${POPUP_X} location=no`
     );
@@ -18,7 +18,7 @@ const SocialButtons = () => {
     window.localStorage.setItem('naver_state', state);
 
     window.open(
-      `https://nid.naver.com/oauth2.0/authorize?client_id=${import.meta.env.VITE_NAVER_CLIENT_ID}&redirect_uri=${import.meta.env.VITE_NAVER_REDIRECT_URI}&state=${state}&response_type=code`,
+      `https://nid.naver.com/oauth2.0/authorize?client_id=${import.meta.env.VITE_NAVER_CLIENT_ID}&redirect_uri=${import.meta.env.VITE_BASE_URI + import.meta.env.VITE_NAVER_REDIRECT_URI}&state=${state}&response_type=code`,
       'naver_popup',
       `width=${POPUP_WIDTH}, height=${POPUP_HEIGHT}, top=${POPUP_Y}, left=${POPUP_X} location=no`
     );

@@ -3,6 +3,7 @@ import {useEffect} from 'react';
 import {useMemberStore} from '../../zustand/MemberStore.ts';
 import {useShallow} from 'zustand/react/shallow';
 import {requestKakaoAuth} from '../../api/SocialFetch.ts';
+import {ErrorCode} from '../../api/FetchHelper.ts';
 
 const KakaoCallback = () => {
   const navigate = useNavigate();
@@ -31,6 +32,12 @@ const KakaoCallback = () => {
       }
 
       const res = await requestKakaoAuth(code, nonce);
+      if (res.errorCode !== ErrorCode.SUCCEED) {
+        console.error(res);
+        alert('카카오 계정 인증 실패');
+      }
+
+      console.log('카카오 데이터', res.data);
     } catch (error) {
       console.error(error);
       alert('카카오 계정 인증 실패');

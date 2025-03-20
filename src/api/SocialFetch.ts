@@ -1,4 +1,4 @@
-import {ContentType, HttpMethod, requestToApi} from './FetchHelper.ts';
+import {ContentType, ErrorCode, HttpMethod, requestToApi} from './FetchHelper.ts';
 
 export const requestKakaoAuth = async (code: string, nonce: string) => {
   try {
@@ -14,7 +14,7 @@ export const requestKakaoAuth = async (code: string, nonce: string) => {
 
     if (!res?.ok) {
       return {
-        errorCode: 'FAILED',
+        errorCode: ErrorCode.FAILED,
         data: {
           msg: '실패',
         },
@@ -22,12 +22,12 @@ export const requestKakaoAuth = async (code: string, nonce: string) => {
     }
 
     return {
-      errorCode: 'SUCCEED',
+      errorCode: ErrorCode.FAILED,
       data: await res.json(),
     };
   } catch (error) {
     return {
-      errorCode: 'EXCEPTION',
+      errorCode: ErrorCode.EXCEPTION,
       data: {
         msg: `토큰 요청 예외 발생: ${error}`,
       },
@@ -49,7 +49,7 @@ export const requestNaverAuth = async (code: string, state: string) => {
 
     if (!res?.ok) {
       return {
-        errorCode: 'FAILED',
+        errorCode: ErrorCode.FAILED,
         data: {
           msg: '실패',
         },
@@ -57,12 +57,12 @@ export const requestNaverAuth = async (code: string, state: string) => {
     }
 
     return {
-      errorCode: 'SUCCEED',
+      errorCode: ErrorCode.SUCCEED,
       data: await res.json(),
     };
   } catch (error) {
     return {
-      errorCode: 'EXCEPTION',
+      errorCode: ErrorCode.EXCEPTION,
       data: {
         msg: `토큰 요청 예외 발생: ${error}`,
       },
