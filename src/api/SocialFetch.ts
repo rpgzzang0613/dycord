@@ -16,7 +16,7 @@ export const requestKakaoAuth = async (code: string, nonce: string) => {
       return {
         errorCode: ErrorCode.FAILED,
         data: {
-          msg: '실패',
+          msg: res ? await res.json() : '실패',
         },
       };
     }
@@ -51,7 +51,7 @@ export const requestNaverAuth = async (code: string, state: string) => {
       return {
         errorCode: ErrorCode.FAILED,
         data: {
-          msg: '실패',
+          msg: res ? await res.json() : '실패',
         },
       };
     }

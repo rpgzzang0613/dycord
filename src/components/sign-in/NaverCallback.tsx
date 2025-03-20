@@ -36,6 +36,7 @@ const NaverCallback = () => {
       if (res.errorCode !== ErrorCode.SUCCEED) {
         console.error(res);
         alert('네이버 계정 인증 실패');
+        return;
       }
 
       window.opener.postMessage(res.data, import.meta.env.VITE_BASE_URI);

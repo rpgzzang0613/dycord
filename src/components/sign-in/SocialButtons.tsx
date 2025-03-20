@@ -1,9 +1,10 @@
 import '../../styles/SocialButtons.css';
 import {POPUP_HEIGHT, POPUP_WIDTH, POPUP_X, POPUP_Y} from '../../utils/SocialPopup.ts';
+import {v4} from 'uuid';
 
 const SocialButtons = () => {
   const handleKakaoLogin = async () => {
-    const nonce = crypto.randomUUID();
+    const nonce = v4();
     window.localStorage.setItem('kakao_nonce', nonce);
 
     window.open(
@@ -14,7 +15,7 @@ const SocialButtons = () => {
   };
 
   const handleNaverLogin = async () => {
-    const state = crypto.randomUUID();
+    const state = v4();
     window.localStorage.setItem('naver_state', state);
 
     window.open(
