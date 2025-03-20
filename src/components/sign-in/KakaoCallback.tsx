@@ -37,7 +37,8 @@ const KakaoCallback = () => {
         alert('카카오 계정 인증 실패');
       }
 
-      console.log('카카오 데이터', res.data);
+      window.opener.postMessage(res.data, import.meta.env.VITE_BASE_URI);
+      self.close();
     } catch (error) {
       console.error(error);
       alert('카카오 계정 인증 실패');

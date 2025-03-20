@@ -22,7 +22,7 @@ export const requestKakaoAuth = async (code: string, nonce: string) => {
     }
 
     return {
-      errorCode: ErrorCode.FAILED,
+      errorCode: ErrorCode.SUCCEED,
       data: await res.json(),
     };
   } catch (error) {
