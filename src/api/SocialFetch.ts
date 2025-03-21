@@ -1,14 +1,15 @@
 import {ContentType, ErrorCode, HttpMethod, requestToApi} from './FetchHelper.ts';
 
-export const requestKakaoAuth = async (code: string, nonce: string) => {
+export const requestOIDCAuth = async (code: string, nonce: string, platform: string) => {
   try {
     const res = await requestToApi({
-      endpoint: '/auth/kakao',
+      endpoint: '/auth/oidc',
       method: HttpMethod.POST,
       contentType: ContentType.JSON,
       paramObj: {
         code: code,
         nonce: nonce,
+        platform: platform,
       },
     });
 

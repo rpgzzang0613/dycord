@@ -5,6 +5,7 @@ import SignIn from './pages/SignIn.tsx';
 import PrivateRoute from './routes/PrivateRoute.tsx';
 import KakaoCallback from './components/sign-in/KakaoCallback.tsx';
 import NaverCallback from './components/sign-in/NaverCallback.tsx';
+import GoogleCallback from './components/sign-in/GoogleCallback.tsx';
 
 const App = () => {
   return (
@@ -16,6 +17,7 @@ const App = () => {
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/auth/callback/kakao" element={<KakaoCallback />} />
         <Route path="/auth/callback/naver" element={<NaverCallback />} />
+        <Route path="/auth/callback/google" element={<GoogleCallback />} />
       </Routes>
     </BrowserRouter>
   );

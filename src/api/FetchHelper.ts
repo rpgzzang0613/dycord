@@ -38,7 +38,7 @@ interface RequestParams {
 export const requestToApi = async ({
   endpoint,
   method,
-  baseUrl = 'http://localhost:9090',
+  baseUrl = import.meta.env.VITE_API_URI,
   contentType,
   paramObj = {},
   headerObj = {},

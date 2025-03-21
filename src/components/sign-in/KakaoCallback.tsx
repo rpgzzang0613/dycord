@@ -2,7 +2,7 @@ import {useNavigate} from 'react-router-dom';
 import {useEffect} from 'react';
 import {useMemberStore} from '../../zustand/MemberStore.ts';
 import {useShallow} from 'zustand/react/shallow';
-import {requestKakaoAuth} from '../../api/SocialFetch.ts';
+import {requestOIDCAuth} from '../../api/SocialFetch.ts';
 import {ErrorCode} from '../../api/FetchHelper.ts';
 
 const KakaoCallback = () => {
@@ -18,20 +18,18 @@ const KakaoCallback = () => {
     try {
       const params = new URLSearchParams(window.location.search);
       const code = params.get('code');
-
       if (!code) {
         alert('카카오 code 요청 실패');
         return;
       }
 
-      const nonce = window.localStorage.getItem('kakao_nonce');
-
+      const nonce = window.sessionStorage.getItem('kakao_nonce');
       if (!nonce) {
         alert('카카오 nonce 불러오기 실패');
         return;
       }
 
-      const res = await requestKakaoAuth(code, nonce);
+      const res = await requestOIDCAuth(code, nonce, 'kakao');
       if (res.errorCode !== ErrorCode.SUCCEED) {
         console.error(res);
         alert('카카오 계정 인증 실패');
