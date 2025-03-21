@@ -36,7 +36,7 @@ export const requestOIDCAuth = async (code: string, nonce: string, platform: str
   }
 };
 
-export const requestNaverAuth = async (code: string, state: string) => {
+export const requestNaverAuth = async (code: string, state: string, platform: string) => {
   try {
     const res = await requestToApi({
       endpoint: '/auth/naver',
@@ -45,6 +45,7 @@ export const requestNaverAuth = async (code: string, state: string) => {
       paramObj: {
         code: code,
         state: state,
+        platform: platform,
       },
     });
 
