@@ -4,7 +4,7 @@ import {v4} from 'uuid';
 
 const SocialButtons = () => {
   const handleRequestOauth2Code = async (platform: string) => {
-    if (!['kakao', 'naver', 'google'].includes(platform)) {
+    if (!['google', 'kakao', 'naver'].includes(platform)) {
       alert('소셜 플랫폼 파라미터 오류');
       return;
     }
@@ -42,18 +42,18 @@ const SocialButtons = () => {
         ...commonParams,
       });
 
-      if (platform === 'kakao') {
-        window.sessionStorage.setItem('kakao_nonce', nonce);
-        params.set('nonce', nonce);
-      } else if (platform === 'naver') {
-        window.sessionStorage.setItem('naver_state', state);
-        params.set('state', state);
-      } else if (platform === 'google') {
+      if (platform === 'google') {
         window.sessionStorage.setItem('google_state', state);
         window.sessionStorage.setItem('google_nonce', nonce);
         params.set('state', state);
         params.set('nonce', nonce);
         params.set('scope', 'openid email');
+      } else if (platform === 'kakao') {
+        window.sessionStorage.setItem('kakao_nonce', nonce);
+        params.set('nonce', nonce);
+      } else if (platform === 'naver') {
+        window.sessionStorage.setItem('naver_state', state);
+        params.set('state', state);
       }
 
       return params;
