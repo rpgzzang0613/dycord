@@ -1,19 +1,8 @@
-import {useNavigate} from 'react-router-dom';
 import {useEffect} from 'react';
-import {useMemberStore} from '../zustand/MemberStore.ts';
-import {useShallow} from 'zustand/react/shallow';
 import {requestOIDCAuth} from '../api/SocialFetch.ts';
 import {ErrorCode} from '../api/FetchHelper.ts';
 
 const KakaoCallback = () => {
-  const navigate = useNavigate();
-
-  const {isSignedIn} = useMemberStore(
-    useShallow(state => ({
-      isSignedIn: state.isSignedIn,
-    }))
-  );
-
   const handleKakaoAuth = async () => {
     try {
       const params = new URLSearchParams(window.location.search);
@@ -48,7 +37,6 @@ const KakaoCallback = () => {
     handleKakaoAuth();
   }, []);
 
-  // navigate를 써서 다른 페이지로 빠지므로 화면 렌더링 없이 null 반환
   return null;
 };
 
