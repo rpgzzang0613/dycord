@@ -1,6 +1,7 @@
 import SocialButtons from '../components/sign-in/SocialButtons.tsx';
-import {useNavigate} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import {useEffect, useState} from 'react';
+import FullScreenLayout from '../layout/FullScreenLayout.tsx';
 
 const SignIn = () => {
   const navigate = useNavigate();
@@ -27,15 +28,16 @@ const SignIn = () => {
   }, []);
 
   return (
-    <div>
+    <FullScreenLayout>
       <h1>로그인</h1>
       <div>{test}</div>
       <SocialButtons />
+      <Link to="/test">테스트</Link>
       <form action="/sign-in" method="post">
         <input type="text" name="email" placeholder="email" />
         <input type="password" name="password" placeholder="password" />
       </form>
-    </div>
+    </FullScreenLayout>
   );
 };
 

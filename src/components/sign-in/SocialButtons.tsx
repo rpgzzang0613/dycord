@@ -1,5 +1,5 @@
 import '../../styles/SocialButtons.css';
-import {POPUP_HEIGHT, POPUP_WIDTH, POPUP_X, POPUP_Y} from '../../utils/SocialPopup.ts';
+import {POPUP_HEIGHT, POPUP_WIDTH, POPUP_X, POPUP_Y} from '../../utils/CommonValues.ts';
 import {v4} from 'uuid';
 
 const SocialButtons = () => {
