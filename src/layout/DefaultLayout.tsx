@@ -1,7 +1,8 @@
 import styles from './DefaultLayout.module.css';
 import {Link} from 'react-router-dom';
+import {ReactNode} from 'react';
 
-const DefaultLayout = ({children}) => {
+const DefaultLayout = ({children}: {children: ReactNode}) => {
   return (
     <div className={styles.layout}>
       <header className={styles.header}>
