@@ -1,6 +1,6 @@
 import {ContentType, ErrorCode, HttpMethod, requestToApi} from './FetchHelper.ts';
 
-export const requestOIDCAuth = async ({
+export const requestAuthByOIDC = async ({
   code,
   nonce,
   platform,
@@ -44,7 +44,7 @@ export const requestOIDCAuth = async ({
   }
 };
 
-export const requestNaverAuth = async ({
+export const requestAuthByNaver = async ({
   code,
   state,
   platform,

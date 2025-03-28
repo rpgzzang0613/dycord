@@ -1,9 +1,9 @@
 import {useLocation, useParams} from 'react-router-dom';
 import {useEffect} from 'react';
 import {
-  handleRequestGoogleAuth,
-  handleRequestKakaoAuth,
-  handleRequestNaverAuth,
+  handleRequestAuthByGoogle,
+  handleRequestAuthByKakao,
+  handleRequestAuthByNaver,
 } from '../utils/OAuth2Helper.ts';
 
 const OAuth2Callback = () => {
@@ -12,11 +12,11 @@ const OAuth2Callback = () => {
 
   const handleOAuth2Auth = async (params: URLSearchParams) => {
     if (platform === 'google') {
-      await handleRequestGoogleAuth(params);
+      await handleRequestAuthByGoogle(params);
     } else if (platform === 'kakao') {
-      await handleRequestKakaoAuth(params);
+      await handleRequestAuthByKakao(params);
     } else if (platform === 'naver') {
-      await handleRequestNaverAuth(params);
+      await handleRequestAuthByNaver(params);
     } else {
       alert('알 수 없는 플랫폼입니다.');
     }

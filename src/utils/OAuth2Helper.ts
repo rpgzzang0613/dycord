@@ -1,5 +1,5 @@
 import {v4} from 'uuid';
-import {requestNaverAuth, requestOIDCAuth} from '../api/SocialFetch.ts';
+import {requestAuthByNaver, requestAuthByOIDC} from '../api/SocialFetch.ts';
 import {ErrorCode} from '../api/FetchHelper.ts';
 
 /**
@@ -102,7 +102,7 @@ export const openOAuth2Popup = ({
   );
 };
 
-export const handleRequestGoogleAuth = async (params: URLSearchParams) => {
+export const handleRequestAuthByGoogle = async (params: URLSearchParams) => {
   try {
     const code = params.get('code');
     const state = params.get('state');
@@ -123,7 +123,7 @@ export const handleRequestGoogleAuth = async (params: URLSearchParams) => {
       return;
     }
 
-    const res = await requestOIDCAuth({code: code, nonce: nonce, platform: 'google'});
+    const res = await requestAuthByOIDC({code: code, nonce: nonce, platform: 'google'});
     if (res.errorCode !== ErrorCode.SUCCEED) {
       console.error(res);
       alert('구글 계정 인증 실패');
@@ -138,7 +138,7 @@ export const handleRequestGoogleAuth = async (params: URLSearchParams) => {
   }
 };
 
-export const handleRequestKakaoAuth = async (params: URLSearchParams) => {
+export const handleRequestAuthByKakao = async (params: URLSearchParams) => {
   try {
     const code = params.get('code');
     if (!code) {
@@ -152,7 +152,7 @@ export const handleRequestKakaoAuth = async (params: URLSearchParams) => {
       return;
     }
 
-    const res = await requestOIDCAuth({code: code, nonce: nonce, platform: 'kakao'});
+    const res = await requestAuthByOIDC({code: code, nonce: nonce, platform: 'kakao'});
     if (res.errorCode !== ErrorCode.SUCCEED) {
       console.error(res);
       alert('카카오 계정 인증 실패');
@@ -167,7 +167,7 @@ export const handleRequestKakaoAuth = async (params: URLSearchParams) => {
   }
 };
 
-export const handleRequestNaverAuth = async (params: URLSearchParams) => {
+export const handleRequestAuthByNaver = async (params: URLSearchParams) => {
   try {
     const code = params.get('code');
     const state = params.get('state');
@@ -182,7 +182,7 @@ export const handleRequestNaverAuth = async (params: URLSearchParams) => {
       return;
     }
 
-    const res = await requestNaverAuth({code: code, state: state, platform: 'naver'});
+    const res = await requestAuthByNaver({code: code, state: state, platform: 'naver'});
     if (res.errorCode !== ErrorCode.SUCCEED) {
       console.error(res);
       alert('네이버 계정 인증 실패');
