@@ -1,4 +1,4 @@
-import '../../styles/SocialButtons.css';
+import styles from './SocialButtons.module.css';
 import {POPUP_HEIGHT, POPUP_WIDTH, POPUP_X, POPUP_Y} from '../../utils/CommonValues.ts';
 import {v4} from 'uuid';
 
@@ -71,16 +71,25 @@ const SocialButtons = () => {
   };
 
   return (
-    <div className="button-area">
-      <button className="button kakao" onClick={() => handleRequestOauth2Code('kakao')}>
+    <div className={styles.buttonArea}>
+      <button
+        className={`${styles.button} ${styles.kakao}`}
+        onClick={() => handleRequestOauth2Code('kakao')}
+      >
         <span>카카오 로그인</span>
       </button>
 
-      <button className="button naver" onClick={() => handleRequestOauth2Code('naver')}>
+      <button
+        className={`${styles.button} ${styles.naver}`}
+        onClick={() => handleRequestOauth2Code('naver')}
+      >
         <span>네이버 로그인</span>
       </button>
 
-      <button className="button google" onClick={() => handleRequestOauth2Code('google')}>
+      <button
+        className={`${styles.button} ${styles.google}`}
+        onClick={() => handleRequestOauth2Code('google')}
+      >
         <span>구글 로그인</span>
       </button>
     </div>

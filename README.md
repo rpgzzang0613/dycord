@@ -1,50 +1,26 @@
-# React + TypeScript + Vite
-
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-});
-```
-
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react';
-
-export default tseslint.config({
-  // Set the react version
-  settings: {react: {version: '18.3'}},
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-});
-```
+## 디렉토리 구조
+- api
+  - API 요청 관련 디렉토리
+  - FetchHelper.ts
+    - fetch의 Wrapper 함수인 requestToApi가 정의됨
+    - API 요청시 fetch를 직접 호출하지 않고 Wrapper 함수를 호출하여 요청
+  - XXXXFetch.ts
+    - requestToApi 함수를 통해 API에 요청하는 코드를 모아둠
+- assets
+  - 폰트, 이미지 등 정적 파일용 디렉토리
+- components
+  - pages에서 사용할 컴포넌트를 모아둔 디렉토리
+- layout
+  - 헤더, 푸터, 메뉴 등 고정된 레이아웃을 정의해둔 디렉토리
+  - DefaultLayout.tsx
+    - 로그인 화면을 제외한 모든 페이지에서 공통으로 사용할 레이아웃
+  - FullScreenLayout.tsx
+    - 로그인 화면처럼 헤더, 푸터, 메뉴 등이 없는 페이지에서 사용할 레이아웃
+- pages
+  - 레이아웃 내부의 본문에 렌더링될 페이지를 정의해둔 디렉토리
+- routes
+  - 미로그인 상태로 로그인 필요 페이지에 접근시 로그인 페이지로 리다이렉트하는 컴포넌트를 정의해둔 디렉토리
+- utils
+  - 페이지와 무관하게 공통적으로 사용되는 유틸함수나 변수를 모아둔 디렉토리
+- zustand
+  - 전역 상태 관리용 디렉토리
