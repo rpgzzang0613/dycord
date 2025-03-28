@@ -18,7 +18,7 @@ const KakaoCallback = () => {
         return;
       }
 
-      const res = await requestOIDCAuth(code, nonce, 'kakao');
+      const res = await requestOIDCAuth({code: code, nonce: nonce, platform: 'kakao'});
       if (res.errorCode !== ErrorCode.SUCCEED) {
         console.error(res);
         alert('카카오 계정 인증 실패');

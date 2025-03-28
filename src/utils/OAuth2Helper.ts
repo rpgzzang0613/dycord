@@ -1,9 +1,13 @@
 import {v4} from 'uuid';
 
-// 소셜 플랫폼 목록
+/**
+ * 소셜 플랫폼 목록
+ */
 export const platformKeys = ['kakao', 'naver', 'google'];
 
-// 소셜 플랫폼 정보
+/**
+ * 소셜 플랫폼 정보
+ */
 export const platformInfo: Record<
   string,
   {kor: string; baseUrl: string; clientId: string; redirectUri: string}
@@ -28,7 +32,10 @@ export const platformInfo: Record<
   },
 };
 
-// 플랫폼별 Code 요청 파라미터 세팅 후 반환
+/**
+ * 플랫폼별 Code 요청 파라미터 세팅 후 반환하는 함수
+ * @param platform
+ */
 export const createPlatformParams = (platform: string) => {
   const nonce = v4();
   const state = v4();
@@ -56,8 +63,18 @@ export const createPlatformParams = (platform: string) => {
   return params;
 };
 
-// 소셜로그인 팝업 오픈
-export const openOAuth2Popup = (platform: string, params: URLSearchParams) => {
+/**
+ * 소셜로그인 팝업 오픈하는 함수
+ * @param platform
+ * @param params
+ */
+export const openOAuth2Popup = ({
+  platform,
+  params,
+}: {
+  platform: string;
+  params: URLSearchParams;
+}) => {
   const POPUP_WIDTH = 450;
   const POPUP_HEIGHT = 600;
 

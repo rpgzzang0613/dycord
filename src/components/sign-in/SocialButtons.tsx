@@ -15,7 +15,10 @@ const SocialButtons = () => {
 
     const params = createPlatformParams(platform);
 
-    openOAuth2Popup(platform, params);
+    openOAuth2Popup({
+      platform: platform,
+      params: params,
+    });
   };
 
   return (

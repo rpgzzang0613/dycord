@@ -1,15 +1,14 @@
 import SocialButtons from '../components/sign-in/SocialButtons.tsx';
-import {Link, useNavigate} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import {useEffect, useState} from 'react';
 import FullScreenLayout from '../layout/FullScreenLayout.tsx';
 
 const SignIn = () => {
-  const navigate = useNavigate();
-
   const [test, setTest] = useState('');
 
   useEffect(() => {
-    const handleSocialMessage = (event: MessageEvent) => {
+    const handleEventListener = (event: MessageEvent) => {
+      // 팝업으로부터 postMessage로 전달받은 데이터 확인
       const isValidOrigin = event.origin === import.meta.env.VITE_BASE_URI;
       const isValidData = event?.data != null;
       const isReactDeveloperMessage =
@@ -22,9 +21,9 @@ const SignIn = () => {
       setTest(JSON.stringify(event.data));
     };
 
-    window.addEventListener('message', handleSocialMessage);
+    window.addEventListener('message', handleEventListener);
 
-    return () => window.removeEventListener('message', handleSocialMessage);
+    return () => window.removeEventListener('message', handleEventListener);
   }, []);
 
   return (

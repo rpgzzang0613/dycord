@@ -19,7 +19,7 @@ const NaverCallback = () => {
         return;
       }
 
-      const res = await requestNaverAuth(code, state, 'naver');
+      const res = await requestNaverAuth({code: code, state: state, platform: 'naver'});
       if (res.errorCode !== ErrorCode.SUCCEED) {
         console.error(res);
         alert('네이버 계정 인증 실패');
