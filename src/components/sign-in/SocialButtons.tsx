@@ -1,9 +1,14 @@
 import styles from './SocialButtons.module.css';
-import {createPlatformParams, openOAuth2Popup} from '../../utils/OAuth2Helper.ts';
+import {
+  createPlatformParams,
+  openOAuth2Popup,
+  platformInfo,
+  platformKeys,
+} from '../../utils/OAuth2Helper.ts';
 
 const SocialButtons = () => {
-  const handleRequestOAuth2Code = async (platform: string) => {
-    if (!['google', 'kakao', 'naver'].includes(platform)) {
+  const handleOnClick = async (platform: string) => {
+    if (!platformKeys.includes(platform)) {
       alert('소셜 플랫폼 파라미터 오류');
       return;
     }
@@ -15,26 +20,15 @@ const SocialButtons = () => {
 
   return (
     <div className={styles.buttonArea}>
-      <button
-        className={`${styles.button} ${styles.kakao}`}
-        onClick={() => handleRequestOAuth2Code('kakao')}
-      >
-        <span>카카오 로그인</span>
-      </button>
-
-      <button
-        className={`${styles.button} ${styles.naver}`}
-        onClick={() => handleRequestOAuth2Code('naver')}
-      >
-        <span>네이버 로그인</span>
-      </button>
-
-      <button
-        className={`${styles.button} ${styles.google}`}
-        onClick={() => handleRequestOAuth2Code('google')}
-      >
-        <span>구글 로그인</span>
-      </button>
+      {platformKeys.map(platform => (
+        <button
+          key={platform}
+          className={`${styles.button} ${styles[platform]}`}
+          onClick={() => handleOnClick(platform)}
+        >
+          <span>{platformInfo[platform].kor} 로그인</span>
+        </button>
+      ))}
     </div>
   );
 };

@@ -1,21 +1,27 @@
 import {v4} from 'uuid';
 
+// 소셜 플랫폼 목록
+export const platformKeys = ['kakao', 'naver', 'google'];
+
 // 소셜 플랫폼 정보
 export const platformInfo: Record<
   string,
-  {baseUrl: string; clientId: string; redirectUri: string}
+  {kor: string; baseUrl: string; clientId: string; redirectUri: string}
 > = {
   kakao: {
+    kor: '카카오',
     baseUrl: 'https://kauth.kakao.com/oauth/authorize',
     clientId: import.meta.env.VITE_KAKAO_CLIENT_ID,
     redirectUri: import.meta.env.VITE_BASE_URI + import.meta.env.VITE_KAKAO_REDIRECT_URI,
   },
   naver: {
+    kor: '네이버',
     baseUrl: 'https://nid.naver.com/oauth2.0/authorize',
     clientId: import.meta.env.VITE_NAVER_CLIENT_ID,
     redirectUri: import.meta.env.VITE_BASE_URI + import.meta.env.VITE_NAVER_REDIRECT_URI,
   },
   google: {
+    kor: '구글',
     baseUrl: 'https://accounts.google.com/o/oauth2/v2/auth',
     clientId: import.meta.env.VITE_GOOGLE_CLIENT_ID,
     redirectUri: import.meta.env.VITE_BASE_URI + import.meta.env.VITE_GOOGLE_REDIRECT_URI,
