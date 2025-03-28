@@ -1,4 +1,6 @@
 import {v4} from 'uuid';
+import {requestNaverAuth, requestOIDCAuth} from '../api/SocialFetch.ts';
+import {ErrorCode} from '../api/FetchHelper.ts';
 
 /**
  * 소셜 플랫폼 목록
@@ -98,4 +100,99 @@ export const openOAuth2Popup = ({
     popupTarget,
     `width=${POPUP_WIDTH}, height=${POPUP_HEIGHT}, top=${POPUP_Y}, left=${POPUP_X}, location=no`
   );
+};
+
+export const handleRequestGoogleAuth = async (params: URLSearchParams) => {
+  try {
+    const code = params.get('code');
+    const state = params.get('state');
+    if (!code || !state) {
+      alert('구글 계정 인증 실패');
+      return;
+    }
+
+    const storedState = window.sessionStorage.getItem('google_state');
+    if (storedState !== state) {
+      alert('state 불일치');
+      return;
+    }
+
+    const nonce = window.sessionStorage.getItem('google_nonce');
+    if (!nonce) {
+      alert('구글 nonce 불러오기 실패');
+      return;
+    }
+
+    const res = await requestOIDCAuth({code: code, nonce: nonce, platform: 'google'});
+    if (res.errorCode !== ErrorCode.SUCCEED) {
+      console.error(res);
+      alert('구글 계정 인증 실패');
+      return;
+    }
+
+    window.opener.postMessage(res.data, import.meta.env.VITE_BASE_URI);
+    self.close();
+  } catch (error) {
+    console.error(error);
+    alert('구글 계정 인증 실패');
+  }
+};
+
+export const handleRequestKakaoAuth = async (params: URLSearchParams) => {
+  try {
+    const code = params.get('code');
+    if (!code) {
+      alert('카카오 code 요청 실패');
+      return;
+    }
+
+    const nonce = window.sessionStorage.getItem('kakao_nonce');
+    if (!nonce) {
+      alert('카카오 nonce 불러오기 실패');
+      return;
+    }
+
+    const res = await requestOIDCAuth({code: code, nonce: nonce, platform: 'kakao'});
+    if (res.errorCode !== ErrorCode.SUCCEED) {
+      console.error(res);
+      alert('카카오 계정 인증 실패');
+      return;
+    }
+
+    window.opener.postMessage(res.data, import.meta.env.VITE_BASE_URI);
+    self.close();
+  } catch (error) {
+    console.error(error);
+    alert('카카오 계정 인증 실패');
+  }
+};
+
+export const handleRequestNaverAuth = async (params: URLSearchParams) => {
+  try {
+    const code = params.get('code');
+    const state = params.get('state');
+    if (!code || !state) {
+      alert('네이버 계정 인증 실패');
+      return;
+    }
+
+    const storedState = window.sessionStorage.getItem('naver_state');
+    if (storedState !== state) {
+      alert('state 불일치');
+      return;
+    }
+
+    const res = await requestNaverAuth({code: code, state: state, platform: 'naver'});
+    if (res.errorCode !== ErrorCode.SUCCEED) {
+      console.error(res);
+      alert('네이버 계정 인증 실패');
+      return;
+    }
+
+    window.opener.postMessage(res.data, import.meta.env.VITE_BASE_URI);
+    self.close();
+  } catch (error) {
+    console.error(error);
+    alert('네이버 계정 인증 실패');
+  }
 };
