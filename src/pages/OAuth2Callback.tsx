@@ -10,7 +10,7 @@ const OAuth2Callback = () => {
   const {platform} = useParams();
   const location = useLocation();
 
-  const handleOAuth2Auth = async (params: URLSearchParams) => {
+  const handleRequestAuthByOAuth2 = async (params: URLSearchParams) => {
     if (platform === 'google') {
       await handleRequestAuthByGoogle(params);
     } else if (platform === 'kakao') {
@@ -30,7 +30,7 @@ const OAuth2Callback = () => {
 
     const params = new URLSearchParams(location.search);
 
-    handleOAuth2Auth(params);
+    handleRequestAuthByOAuth2(params);
   }, [platform, location]);
 
   return null;
