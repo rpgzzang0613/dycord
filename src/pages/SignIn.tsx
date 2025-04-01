@@ -34,7 +34,20 @@ const SignIn = () => {
       <SocialButtons />
       <Link to="/test">테스트</Link>
       <button type="button" onClick={() => toast('까꿍')}>
-        toast
+        전역설정 그대로
+      </button>
+      <button
+        type="button"
+        onClick={() =>
+          toast('까꿍', {
+            position: 'bottom-center',
+            autoClose: 500,
+            type: 'error',
+            hideProgressBar: true,
+          })
+        }
+      >
+        옵션 개별지정
       </button>
       <form action="/sign-in" method="post">
         <input type="text" name="email" placeholder="email" />
