@@ -25,6 +25,7 @@ const SocialButtons = () => {
     <div className={styles.buttonArea}>
       {platformKeys.map(platform => (
         <button
+          type="button"
           key={platform}
           className={`${styles.button} ${styles[platform]}`}
           onClick={() => handleOnClick(platform)}

@@ -33,7 +33,9 @@ const SignIn = () => {
       <div>{test}</div>
       <SocialButtons />
       <Link to="/test">테스트</Link>
-      <button onClick={() => toast('까꿍')}>toast</button>
+      <button type="button" onClick={() => toast('까꿍')}>
+        toast
+      </button>
       <form action="/sign-in" method="post">
         <input type="text" name="email" placeholder="email" />
         <input type="password" name="password" placeholder="password" />

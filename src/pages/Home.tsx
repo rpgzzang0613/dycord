@@ -24,11 +24,13 @@ const Home = () => {
     <>
       <div>로그인 : {isSignedIn ? 'ㅇ' : 'ㄴ'}</div>
       <div>fetch 내용 : {testObj ? JSON.stringify(testObj) : '없음'}</div>
-      <button onClick={() => handleOnClick(HttpMethod.GET)}>Fetch GET Test</button>
-      <button onClick={() => handleOnClick(HttpMethod.POST, ContentType.FORM)}>
+      <button type="button" onClick={() => handleOnClick(HttpMethod.GET)}>
+        Fetch GET Test
+      </button>
+      <button type="button" onClick={() => handleOnClick(HttpMethod.POST, ContentType.FORM)}>
         Fetch POST FORM Test
       </button>
-      <button onClick={() => handleOnClick(HttpMethod.POST, ContentType.JSON)}>
+      <button type="button" onClick={() => handleOnClick(HttpMethod.POST, ContentType.JSON)}>
         Fetch POST JSON Test
       </button>
     </>
