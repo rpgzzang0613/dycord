@@ -2,6 +2,7 @@ import SocialButtons from '../components/sign-in/SocialButtons.tsx';
 import {Link} from 'react-router-dom';
 import {useEffect, useState} from 'react';
 import FullScreenLayout from '../layout/FullScreenLayout.tsx';
+import {toast} from 'react-toastify';
 
 const SignIn = () => {
   const [test, setTest] = useState('');
@@ -32,6 +33,7 @@ const SignIn = () => {
       <div>{test}</div>
       <SocialButtons />
       <Link to="/test">테스트</Link>
+      <button onClick={() => toast('까꿍')}>toast</button>
       <form action="/sign-in" method="post">
         <input type="text" name="email" placeholder="email" />
         <input type="password" name="password" placeholder="password" />
