@@ -1,7 +1,7 @@
 import SocialButtons from '../components/sign-in/SocialButtons.tsx';
 import {Link} from 'react-router-dom';
 import {useEffect, useState} from 'react';
-import FullScreenLayout from '../layout/FullScreenLayout.tsx';
+import FullScreenLayout from './layout/FullScreenLayout.tsx';
 import {toast} from 'react-toastify';
 
 const SignIn = () => {

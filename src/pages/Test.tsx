@@ -1,4 +1,4 @@
-import DefaultLayout from '../layout/DefaultLayout.tsx';
+import DefaultLayout from './layout/DefaultLayout.tsx';
 import {Link} from 'react-router-dom';
 
 const Test = () => {
