@@ -32,10 +32,6 @@ const SignIn = () => {
         <div className={styles.box}>
           <SocialButtons />
           <Link to="/test">테스트</Link>
-          <form action="/sign-in" method="post">
-            <input type="text" name="email" placeholder="email" />
-            <input type="password" name="password" placeholder="password" />
-          </form>
         </div>
       </div>
     </FullScreenLayout>

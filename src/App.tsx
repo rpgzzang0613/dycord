@@ -5,7 +5,7 @@ import PrivateRoute from './routes/PrivateRoute.tsx';
 import Test from './pages/Test.tsx';
 import Test2 from './pages/Test2.tsx';
 import OAuth2Callback from './pages/OAuth2Callback.tsx';
-import {ToastContainer} from 'react-toastify';
+import {Flip, ToastContainer} from 'react-toastify';
 
 const App = () => {
   return (
@@ -19,7 +19,13 @@ const App = () => {
         <Route path="/test" element={<Test />} />
         <Route path="/test2" element={<Test2 />} />
       </Routes>
-      <ToastContainer position="top-center" autoClose={2000} />
+      <ToastContainer
+        position="top-center"
+        transition={Flip}
+        stacked={true}
+        autoClose={false}
+        draggable={true}
+      />
     </BrowserRouter>
   );
 };

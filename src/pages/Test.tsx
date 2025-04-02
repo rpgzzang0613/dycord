@@ -12,10 +12,12 @@ const Test = () => {
         type="button"
         onClick={() =>
           toast('까꿍', {
-            position: 'bottom-center',
-            autoClose: 500,
-            type: 'error',
+            position: 'bottom-center', // 토스트 뜰 위치
+            autoClose: 500, // 토스트 유지되는 시간
+            type: 'warning', // info, success, warning, error
             hideProgressBar: true,
+            toastId: 'specific_toast', // id가 겹치면 2개이상 뜨지 않음
+            delay: 700, // 토스트 뜨기 전 대기시간
           })
         }
       >
