@@ -1,12 +1,11 @@
 import SocialButtons from '../components/sign-in/SocialButtons.tsx';
 import {Link} from 'react-router-dom';
-import {useEffect, useState} from 'react';
+import {useEffect} from 'react';
 import FullScreenLayout from './layout/FullScreenLayout.tsx';
 import {toast} from 'react-toastify';
+import styles from './SignIn.module.css';
 
 const SignIn = () => {
-  const [test, setTest] = useState('');
-
   useEffect(() => {
     const handleEventListener = (event: MessageEvent) => {
       // 팝업으로부터 postMessage로 전달받은 데이터 확인
@@ -19,7 +18,7 @@ const SignIn = () => {
         return;
       }
 
-      setTest(JSON.stringify(event.data));
+      toast(JSON.stringify(event.data));
     };
 
     window.addEventListener('message', handleEventListener);
@@ -29,30 +28,16 @@ const SignIn = () => {
 
   return (
     <FullScreenLayout>
-      <h1>로그인</h1>
-      <div>{test}</div>
-      <SocialButtons />
-      <Link to="/test">테스트</Link>
-      <button type="button" onClick={() => toast('까꿍')}>
-        전역설정 그대로
-      </button>
-      <button
-        type="button"
-        onClick={() =>
-          toast('까꿍', {
-            position: 'bottom-center',
-            autoClose: 500,
-            type: 'error',
-            hideProgressBar: true,
-          })
-        }
-      >
-        옵션 개별지정
-      </button>
-      <form action="/sign-in" method="post">
-        <input type="text" name="email" placeholder="email" />
-        <input type="password" name="password" placeholder="password" />
-      </form>
+      <div className={styles.container}>
+        <div className={styles.box}>
+          <SocialButtons />
+          <Link to="/test">테스트</Link>
+          <form action="/sign-in" method="post">
+            <input type="text" name="email" placeholder="email" />
+            <input type="password" name="password" placeholder="password" />
+          </form>
+        </div>
+      </div>
     </FullScreenLayout>
   );
 };
