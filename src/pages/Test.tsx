@@ -17,7 +17,7 @@ const Test = () => {
             type: 'warning', // info, success, warning, error
             hideProgressBar: true,
             toastId: 'specific_toast', // id가 겹치면 2개이상 뜨지 않음
-            delay: 700, // 토스트 뜨기 전 대기시간
+            delay: 400, // 토스트 뜨기 전 대기시간
           })
         }
       >

@@ -22,9 +22,9 @@ const App = () => {
       <ToastContainer
         position="top-center"
         transition={Flip}
-        stacked={true}
         autoClose={false}
         draggable={true}
+        draggablePercent={70}
       />
     </BrowserRouter>
   );
