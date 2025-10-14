@@ -1,6 +1,7 @@
 import {v4} from 'uuid';
-import {requestAuthByNaver, requestAuthByOIDC} from '../api/SocialFetch.ts';
+import {requestAuthByOIDC} from '../api/SocialFetch.ts';
 import {ErrorCode} from '../api/FetchHelper.ts';
+import CryptoJS from 'crypto-js';
 
 /**
  * 소셜 플랫폼 목록
@@ -22,7 +23,7 @@ export const platformInfo: Record<
   },
   naver: {
     kor: '네이버',
-    baseUrl: 'https://nid.naver.com/oauth2.0/authorize',
+    baseUrl: 'https://nid.naver.com/oauth2/authorize',
     clientId: import.meta.env.VITE_NAVER_CLIENT_ID,
     redirectUri: import.meta.env.VITE_BASE_URI + import.meta.env.VITE_NAVER_REDIRECT_URI,
   },
@@ -41,25 +42,35 @@ export const platformInfo: Record<
 export const createPlatformParams = (platform: string) => {
   const nonce = v4();
   const state = v4();
+  const codeVerifier = CryptoJS.lib.WordArray.random(32).toString(CryptoJS.enc.Base64url);
+  const codeChallenge = CryptoJS.SHA256(codeVerifier).toString(CryptoJS.enc.Base64url);
+  const {clientId, redirectUri} = platformInfo[platform];
 
   const params = new URLSearchParams({
-    client_id: platformInfo[platform].clientId,
-    redirect_uri: platformInfo[platform].redirectUri,
+    client_id: clientId,
+    redirect_uri: redirectUri,
     response_type: 'code',
+    code_challenge: codeChallenge,
+    code_challenge_method: 'S256',
   });
 
   if (platform === 'google') {
+    window.sessionStorage.setItem('google_code_verifier', codeVerifier);
     window.sessionStorage.setItem('google_state', state);
     window.sessionStorage.setItem('google_nonce', nonce);
     params.set('state', state);
     params.set('nonce', nonce);
     params.set('scope', 'openid email');
   } else if (platform === 'kakao') {
+    window.sessionStorage.setItem('kakao_code_verifier', codeVerifier);
     window.sessionStorage.setItem('kakao_nonce', nonce);
     params.set('nonce', nonce);
+    params.set('scope', 'openid account_email');
   } else if (platform === 'naver') {
+    window.sessionStorage.setItem('naver_code_verifier', codeVerifier);
     window.sessionStorage.setItem('naver_state', state);
     params.set('state', state);
+    params.set('scope', 'openid profile');
   }
 
   return params;
@@ -123,7 +134,19 @@ export const handleRequestAuthByGoogle = async (params: URLSearchParams) => {
       return;
     }
 
-    const res = await requestAuthByOIDC({code: code, nonce: nonce, platform: 'google'});
+    const codeVerifier = window.sessionStorage.getItem('google_code_verifier');
+    if (!codeVerifier) {
+      alert('구글 code_verifier 불러오기 실패');
+      return;
+    }
+
+    const res = await requestAuthByOIDC({
+      code: code,
+      nonce: nonce,
+      codeVerifier: codeVerifier,
+      platform: 'google',
+    });
+
     if (res.errorCode !== ErrorCode.SUCCEED) {
       console.error(res);
       alert('구글 계정 인증 실패');
@@ -152,7 +175,18 @@ export const handleRequestAuthByKakao = async (params: URLSearchParams) => {
       return;
     }
 
-    const res = await requestAuthByOIDC({code: code, nonce: nonce, platform: 'kakao'});
+    const codeVerifier = window.sessionStorage.getItem('kakao_code_verifier');
+    if (!codeVerifier) {
+      alert('카카오 code_verifier 불러오기 실패');
+      return;
+    }
+
+    const res = await requestAuthByOIDC({
+      code: code,
+      nonce: nonce,
+      codeVerifier: codeVerifier,
+      platform: 'kakao',
+    });
     if (res.errorCode !== ErrorCode.SUCCEED) {
       console.error(res);
       alert('카카오 계정 인증 실패');
@@ -182,7 +216,19 @@ export const handleRequestAuthByNaver = async (params: URLSearchParams) => {
       return;
     }
 
-    const res = await requestAuthByNaver({code: code, state: state, platform: 'naver'});
+    const codeVerifier = window.sessionStorage.getItem('naver_code_verifier');
+    if (!codeVerifier) {
+      alert('네이버 code_verifier 불러오기 실패');
+      return;
+    }
+
+    const res = await requestAuthByOIDC({
+      code: code,
+      state: state,
+      codeVerifier: codeVerifier,
+      platform: 'naver',
+    });
+
     if (res.errorCode !== ErrorCode.SUCCEED) {
       console.error(res);
       alert('네이버 계정 인증 실패');
