@@ -31,7 +31,7 @@ const OAuth2Callback = () => {
     const params = new URLSearchParams(location.search);
 
     handleRequestAuthByOAuth2(params);
-  }, [platform, location]);
+  }, [platform, location.search]);
 
   return null;
 };
